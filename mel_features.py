@@ -1,9 +1,11 @@
+#Importing Libraries
 import librosa
 import pandas as pd
 import numpy as np
 import os
 import csv
 
+#Defining Header Row for the Dataset
 header = 'filename,'
 for i in range(1,21):
     header += f'mfcc_{i},'
@@ -13,6 +15,7 @@ for i in range(1,18):
     header += f'mfcc_double_delta_{i},'
 header = header.split(',')
 
+#Creating a data.csv file to save the features
 file = open('data.csv', 'w', newline='')
 with file:
     writer = csv.writer(file)
@@ -42,11 +45,9 @@ for filename in dirs_1:
         with file:
             writer = csv.writer(file)
             writer.writerow(to_append.split(','))
-    
+
+#Converting .csv to .xlsx foe ease of viewing data
 feature_file = pd.read_csv('data.csv')
 excel_writer = pd.ExcelWriter('filepath\mfcc_dataset.xlsx', engine='xlsxwriter') #filepath  = where want to save
 feature_file.to_excel(excel_writer, 'mfcc_dataset')
 excel_writer.save()
-
-#Make sure you give absoulte path address and the path doesn't contain any \n, \t, \(numeric), \a etc.
-#Avoid Spaces in your path name 
